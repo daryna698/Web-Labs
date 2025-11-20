@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Fated Style</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Titan+One&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'fated-bg': '#FF5F5F',       // Лососевий фон
+                        'fated-light': '#FFE3E3',    // Світлі елементи
+                        'fated-dark': '#2C1A1A',     // Темна обводка
+                        'fated-red': '#EF4444',      // Червоний текст
+                        'fated-heart': '#DE4C41',    // Колір серця
+                    },
+                    fontFamily: {
+                        'logo': ['"Titan One"', 'cursive'],
+                        'sans': ['"Nunito"', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="page-login bg-fated-bg min-h-screen flex flex-col items-center justify-center font-sans text-fated-dark">
+
+<div class="screen-container w-full max-w-md px-8 py-6 flex flex-col items-center">
+
+    <main class="content w-full flex flex-col items-center">
+
+        <div class="logo-area flex flex-col items-center mb-10">
+            <div class="heart-icon w-32 h-32 bg-fated-light border-[6px] border-fated-dark rounded-full flex items-center justify-center mb-4 shadow-lg relative">
+                <div class="absolute inset-2 border-2 border-fated-dark/30 rounded-full"></div>
+                <div class="heart-shape text-fated-heart">
+                    <svg class="w-16 h-16 drop-shadow-sm"
+                         style="stroke: #2C1A1A; stroke-width: 2px; filter: drop-shadow(0px 2px 0px rgba(0,0,0,0.1));"
+                         fill="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                    </svg>
+                </div>
+            </div>
+            <h1 class="app-name text-5xl text-fated-light font-logo tracking-wide drop-shadow-md">FATED</h1>
+        </div>
+
+        <div class="tab-switcher flex w-full mb-6 gap-4">
+            <button class="tab flex-1 bg-white/20 py-3 rounded-lg text-white/70 font-bold tracking-wider text-sm uppercase hover:bg-white/30 transition">
+                LOGIN
+            </button>
+            <button class="tab active flex-1 bg-fated-light py-3 rounded-lg text-fated-red font-bold tracking-wider text-sm shadow-md uppercase">
+                SIGN UP
+            </button>
+        </div>
+
+        <form action="#" class="auth-form w-full flex flex-col gap-4">
+            <input type="email" placeholder="E-mail" required
+                   class="w-full p-4 bg-fated-light rounded-lg text-center text-fated-dark placeholder:text-fated-dark/60 font-medium focus:outline-none focus:ring-2 focus:ring-white/50">
+
+            <input type="password" placeholder="Password" required
+                   class="w-full p-4 bg-fated-light rounded-lg text-center text-fated-dark placeholder:text-fated-dark/60 font-medium focus:outline-none focus:ring-2 focus:ring-white/50">
+
+            <div class="w-full flex justify-end mt-1 mb-2">
+                <a href="#" class="forgot-password text-[10px] text-white/90 hover:text-white uppercase font-bold tracking-wide">FORGOT PASSWORD?</a>
+            </div>
+
+            <button type="submit" class="auth-button main-btn w-full p-4 bg-fated-light rounded-lg text-fated-red font-bold uppercase tracking-widest shadow-lg hover:bg-white transition text-lg">
+                REGISTER
+            </button>
+        </form>
+
+    </main>
+
+    <footer class="mt-8">
+        <p class="small-link-text text-[11px] text-white tracking-wide">
+            Already have an account? <a href="#" class="font-bold hover:underline uppercase">Login</a>
+        </p>
+    </footer>
+</div>
+
+</body>
+</html>

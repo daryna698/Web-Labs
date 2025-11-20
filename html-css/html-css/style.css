@@ -1,0 +1,259 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+}
+
+html, body {
+    min-height: 100vh;
+}
+
+/* Контейнер, що імітує екран телефону */
+.screen-container {
+    max-width: 400px; /* Ширина мобільного пристрою */
+    min-height: 100vh;
+    margin: 0 auto; /* Центрування */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px 30px;
+    position: relative;
+    overflow-x: hidden; /* Запобігаємо горизонтальній прокрутці */
+}
+
+.content {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+}
+
+/* === 2. СТОРІНКА ONBOARDING (index.html) === */
+
+body.page-onboarding {
+    background-color: #FFFFFF; /* Чистий білий фон */
+}
+
+.page-onboarding .content {
+    padding-top: 80px; /* Відступ зверху */
+}
+
+.page-onboarding .main-image {
+    width: 100%;
+    max-width: 280px;
+    height: auto;
+    margin-bottom: 60px;
+}
+
+.page-onboarding .title-button {
+    font-size: 16px;
+    font-weight: 700;
+    color: white;
+    background-color: #E94057; /* Червоний колір */
+    padding: 12px 45px;
+    border-radius: 25px;
+    letter-spacing: 1px;
+    margin-bottom: 25px;
+    box-shadow: 0 4px 6px rgba(233, 64, 87, 0.3);
+}
+
+.page-onboarding .description {
+    font-size: 14px;
+    color: #888888;
+    line-height: 1.5;
+    margin-bottom: 50px;
+    max-width: 300px;
+}
+
+.page-onboarding .dots {
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    margin-bottom: 20px;
+}
+
+.page-onboarding .dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background-color: #F0F0F0; /* Світло-сірий */
+}
+
+.page-onboarding .dot.active {
+    width: 20px;
+    border-radius: 10px;
+    background-color: #E94057; /* Червоний */
+}
+
+.page-onboarding .footer-nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding-bottom: 20px;
+}
+
+.page-onboarding .nav-button {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 10px 20px;
+    text-transform: uppercase;
+}
+
+.page-onboarding .nav-button.skip {
+    color: #999999; /* Сірий */
+}
+
+.page-onboarding .nav-button.next {
+    color: white;
+    background-color: #E94057;
+    border-radius: 25px;
+    padding: 12px 30px;
+    box-shadow: 0 4px 6px rgba(233, 64, 87, 0.3);
+}
+
+
+/* === 3. СТОРІНКА LOGIN (login.html) === */
+
+body.page-login {
+    background-color: #E94057; /* Червоний фон */
+    color: white;
+}
+
+.page-login .logo-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 80px;
+    margin-bottom: 50px;
+}
+
+.page-login .heart-icon {
+    width: 150px;
+    height: 150px;
+    background-color: white;
+    border: 5px solid black;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+/* CSS Симуляція серця (якщо немає SVG) */
+.page-login .heart-shape {
+    width: 50px;
+    height: 50px;
+    background-color: #E94057;
+    transform: rotate(45deg);
+    position: relative;
+}
+.page-login .heart-shape::before,
+.page-login .heart-shape::after {
+    content: "";
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background-color: #E94057;
+    border-radius: 50%;
+}
+.page-login .heart-shape::before { top: -50%; left: 0; }
+.page-login .heart-shape::after { left: -50%; top: 0; }
+
+
+.page-login .app-name {
+    font-size: 32px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: 5px;
+}
+
+.page-login .tab-switcher {
+    display: flex;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.page-login .tab {
+    flex: 1;
+    padding: 12px 0;
+    border: none;
+    background: none;
+    font-size: 14px;
+    font-weight: 700;
+    color: rgba(255, 255, 255, 0.7);
+    cursor: pointer;
+    border-radius: 10px;
+}
+
+.page-login .tab.active {
+    background-color: white;
+    color: #E94057;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.page-login .tab.inactive {
+    cursor: default;
+}
+
+.page-login .auth-form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.page-login .auth-form input {
+    width: 100%;
+    padding: 18px 20px;
+    margin-bottom: 20px;
+    background-color: white;
+    border: none;
+    border-radius: 15px;
+    font-size: 16px;
+    color: #333;
+}
+
+.page-login .auth-button.main-btn {
+    width: 100%;
+    padding: 18px;
+    border: none;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    text-transform: uppercase;
+    background-color: white;
+    color: #E94057;
+    margin-top: 10px;
+    margin-bottom: 25px;
+}
+
+.page-login .forgot-password {
+    font-size: 12px;
+    color: white;
+    text-decoration: none;
+    align-self: flex-end;
+    margin-top: -10px;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.page-login .small-link-text {
+    font-size: 12px;
+    color: white;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.page-login .small-link-text a {
+    color: white;
+    text-decoration: underline;
+    font-weight: 700;
+}

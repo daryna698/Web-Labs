@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Onboarding - Fated</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        // Використовуємо той самий червоний/лососевий, що і на сторінці логіну
+                        'fated-red': '#FF5F5F',
+                        'fated-text': '#4A4A4A', // Темно-сірий для тексту
+                    },
+                    fontFamily: {
+                        'sans': ['"Nunito"', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        // М'яка червона тінь для кнопок
+                        'red-glow': '0 4px 15px rgba(255, 95, 95, 0.35)',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white font-sans h-screen flex flex-col justify-between">
+
+<main class="flex-grow flex flex-col items-center justify-center px-8 pb-10">
+
+    <div class="mb-12 w-full flex justify-center">
+        <img src="assets/img-2.png" alt="Couple Illustration" class="w-full max-w-[280px] object-contain drop-shadow-sm">
+    </div>
+
+    <div class="bg-fated-red text-white font-extrabold text-lg py-3 px-10 rounded-xl shadow-red-glow tracking-wider mb-8 uppercase">
+        CHAT WITH EASE
+    </div>
+
+    <p class="text-fated-text/70 text-[15px] leading-relaxed text-center max-w-xs">
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        Integer lacinia tellus quis est pharetra fermentum.
+        Curabitur dapibus, neque id iaculis.
+    </p>
+</main>
+
+<footer class="w-full px-8 py-8 mb-2 flex items-center justify-between">
+
+    <a href="login.html" class="font-bold text-gray-400 text-xs tracking-widest hover:text-gray-600 transition uppercase">
+        SKIP
+    </a>
+
+    <div class="flex gap-2">
+        <div class="w-2.5 h-2.5 bg-fated-red rounded-sm"></div>
+        <div class="w-2.5 h-2.5 bg-gray-200 rounded-sm"></div>
+        <div class="w-2.5 h-2.5 bg-gray-200 rounded-sm"></div>
+    </div>
+
+    <a href="login.html" class="bg-fated-red text-white font-bold text-xs py-3 px-8 rounded-xl shadow-red-glow hover:bg-red-500 transition tracking-widest uppercase">
+        NEXT
+    </a>
+</footer>
+
+</body>
+</html>
