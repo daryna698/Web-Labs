@@ -1,6 +1,8 @@
 <script setup>
 import { ref } from 'vue'
+import { useRouter } from 'vue-router'
 
+// Переконайся, що твої картинки лежать у папці src/assets/ і мають такі назви
 import img1 from '@/assets/slide1.png'
 import img2 from '@/assets/slide2.png'
 import img3 from '@/assets/slide3.png'
@@ -24,18 +26,20 @@ const slides = [
 ]
 
 const currentStep = ref(0)
+const router = useRouter() // Підключаємо "навігатор"
 
 const nextStep = () => {
   if (currentStep.value < slides.length - 1) {
     currentStep.value++
   } else {
-    alert("Вітаємо! Ви пройшли навчання.")
-    // Тут можна додати логіку переходу на іншу сторінку, наприклад:
+    // ВАЖЛИВО: Коли слайди закінчились — йдемо на логін
+    router.push('/login')
   }
 }
 
 const skip = () => {
-  alert("Пропущено. Перехід на іншу сторінку.")
+  // ВАЖЛИВО: При натисканні Skip — теж йдемо на логін
+  router.push('/login')
 }
 </script>
 
@@ -74,8 +78,9 @@ const skip = () => {
             :key="index"
             class="transition-all duration-300"
             :class="[
-              index === currentStep ? 'w-2 h-2 bg-[#FF6B6B]' : 'w-2 h-2 bg-gray-300',
-              'block' // щоб були квадрати
+              // Я трохи збільшив ширину активного квадратика (w-5), щоб він виділявся, як на макеті
+              index === currentStep ? 'w-5 h-2 bg-[#FF6B6B]' : 'w-2 h-2 bg-gray-300',
+              'block'
             ]"
           ></span>
         </div>

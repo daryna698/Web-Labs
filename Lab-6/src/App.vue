@@ -1,7 +1,7 @@
 <script setup>
-import Onboarding from './components/Onboarding.vue'
+import { RouterView } from 'vue-router'
 </script>
 
 <template>
-  <Onboarding />
+  <RouterView />
 </template>
