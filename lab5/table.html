@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab 5: Table Component</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <script src="https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js"></script>
+
+    <style>
+        input[type="checkbox"] {
+            width: 16px;
+            height: 16px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body class="bg-white p-4 md:p-8 font-sans text-gray-700">
+
+<div class="max-w-[1200px] mx-auto">
+
+    <div class="flex justify-between items-center mb-4 text-sm font-medium text-gray-600">
+        <div class="flex items-center gap-1 cursor-pointer">
+            <input type="checkbox" class="border-gray-300">
+            <iconify-icon icon="mdi:chevron-down" class="text-lg"></iconify-icon>
+        </div>
+
+        <div class="flex items-center gap-4">
+            <button class="flex items-center gap-1 hover:text-gray-900 transition"><iconify-icon icon="charm:cards" class="text-lg"></iconify-icon> Display</button>
+            <button class="flex items-center gap-1 hover:text-gray-900 transition"><iconify-icon icon="mdi:sort-variant" class="text-lg"></iconify-icon> Sort by</button>
+            <button class="flex items-center gap-1 hover:text-gray-900 transition"><iconify-icon icon="mdi:dots-vertical" class="text-lg"></iconify-icon> Actions</button>
+        </div>
+    </div>
+
+    <div class="border border-gray-200 rounded-lg overflow-x-auto shadow-sm">
+        <table class="w-full text-left border-collapse min-w-[900px]">
+
+            <thead class="bg-gray-50 text-gray-500 text-[12px] font-semibold">
+            <tr>
+                <th class="py-3 px-4 w-12 text-center"></th>
+                <th class="py-3 px-4">Address</th>
+                <th class="py-3 px-4 text-center">Skip-Traced?</th>
+                <th class="py-3 px-4 text-center">
+                    <div class="flex items-center justify-center gap-1">Deal Type <iconify-icon icon="mdi:information-outline" class="text-gray-400"></iconify-icon></div>
+                </th>
+                <th class="py-3 px-4 text-center">Est Price/SqFt</th>
+                <th class="py-3 px-4 text-center">
+                    <div class="flex items-center justify-center gap-1">Motivation(s) <iconify-icon icon="mdi:information-outline" class="text-gray-400"></iconify-icon></div>
+                </th>
+                <th class="py-3 px-4">Property Status</th>
+            </tr>
+            </thead>
+
+            <tbody class="divide-y divide-gray-200 text-sm">
+
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="py-4 px-4 text-center"><input type="checkbox"></td>
+                <td class="py-4 px-4">
+                    <div class="flex justify-between items-center pr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800 underline decoration-gray-400 cursor-pointer">5418 W WASHINGTON BLVD</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">LOS ANGELES, CA, 90016</p>
+                        </div>
+                        <iconify-icon icon="mdi:image-outline" class="text-gray-400 text-xl cursor-pointer"></iconify-icon>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-center"><iconify-icon icon="si:zoom-in-line" class="text-gray-400 text-xl cursor-pointer"></iconify-icon></td>
+                <td class="py-4 px-4 text-center">0</td>
+                <td class="py-4 px-4 text-center">8</td>
+                <td class="py-4 px-4 text-center">Off Market (Motivated)</td>
+                <td class="py-4 px-4"></td> </tr>
+
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="py-4 px-4 text-center"><input type="checkbox"></td>
+                <td class="py-4 px-4">
+                    <div class="flex justify-between items-center pr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800 underline decoration-gray-400 cursor-pointer">4221 ABNER ST</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">LOS ANGELES, CA, 90032</p>
+                        </div>
+                        <iconify-icon icon="mdi:image-outline" class="text-gray-400 text-xl cursor-pointer"></iconify-icon>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-center"></td>
+                <td class="py-4 px-4 text-center">0</td>
+                <td class="py-4 px-4 text-center">$950</td>
+                <td class="py-4 px-4 text-center">12</td>
+                <td class="py-4 px-4">Off Market (Motivated)</td>
+            </tr>
+
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="py-4 px-4 text-center"><input type="checkbox"></td>
+                <td class="py-4 px-4">
+                    <div class="flex justify-between items-center pr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800 underline decoration-gray-400 cursor-pointer">121 S HOPE ST APT 506</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">LOS ANGELES, CA, 90012</p>
+                        </div>
+                        <iconify-icon icon="mdi:image-outline" class="text-gray-400 text-xl cursor-pointer"></iconify-icon>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-center"><iconify-icon icon="si:zoom-in-line" class="text-gray-400 text-xl cursor-pointer"></iconify-icon></td>
+                <td class="py-4 px-4 text-center">0</td>
+                <td class="py-4 px-4 text-center">$723</td>
+                <td class="py-4 px-4 text-center">10</td>
+                <td class="py-4 px-4">Off Market (Motivated)</td>
+            </tr>
+
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="py-4 px-4 text-center"><input type="checkbox"></td>
+                <td class="py-4 px-4">
+                    <div class="flex justify-between items-center pr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800 underline decoration-gray-400 cursor-pointer">3132 E PICO BLVD</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">LOS ANGELES, CA, 90023</p>
+                        </div>
+                        <iconify-icon icon="mdi:image-outline" class="text-gray-400 text-xl cursor-pointer"></iconify-icon>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-center"></td>
+                <td class="py-4 px-4 text-center">0</td>
+                <td class="py-4 px-4 text-center"></td>
+                <td class="py-4 px-4 text-center">5</td>
+                <td class="py-4 px-4">Off Market (Motivated)</td>
+            </tr>
+
+            <tr class="hover:bg-gray-50 transition-colors duration-150">
+                <td class="py-4 px-4 text-center"><input type="checkbox"></td>
+                <td class="py-4 px-4">
+                    <div class="flex justify-between items-center pr-4">
+                        <div>
+                            <p class="font-semibold text-gray-800 underline decoration-gray-400 cursor-pointer">777 E PICO BLVD</p>
+                            <p class="text-[12px] text-gray-500 mt-0.5">LOS ANGELES, CA, 90021</p>
+                        </div>
+                        <iconify-icon icon="mdi:image-outline" class="text-gray-400 text-xl cursor-pointer"></iconify-icon>
+                    </div>
+                </td>
+                <td class="py-4 px-4 text-center"></td>
+                <td class="py-4 px-4 text-center">0</td>
+                <td class="py-4 px-4 text-center"></td>
+                <td class="py-4 px-4 text-center">6</td>
+                <td class="py-4 px-4">Off Market (Motivated)</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>
