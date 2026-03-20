@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Лабораторна JS 2</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; max-width: 800px; }
+        .task-block { margin-bottom: 30px; border: 1px solid #ccc; padding: 15px; border-radius: 5px; background: #f9f9f9; }
+
+        #elid {
+            width: 100px;
+            height: 100px;
+            background-color: blue;
+            transition: margin-left 0.4s ease;
+            margin-left: 0px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="task-block">
+    <h3>Завдання №3: робота з API</h3>
+    <input type="text" id="countyInput" placeholder="Baldwin County, Alabama" style="width: 250px; padding: 5px;">
+    <button id="searchBtn" style="padding: 5px;">Знайти код</button>
+    <div id="resultText" style="margin-top: 10px; color: green; font-weight: bold;"></div>
+</div>
+
+<div class="task-block">
+    <h3>Завдання №4: валідація форми</h3>
+    <form id="myForm">
+        <input type="text" id="first_name" placeholder="Ім'я"><br><br>
+        <input type="text" id="last_name" placeholder="Прізвище"><br><br>
+        <input type="email" id="email" placeholder="Email"><br><br>
+        <button type="submit">Відправити</button>
+    </form>
+</div>
+
+<div class="task-block">
+    <h3>Завдання №5: анімація та взаємодія</h3>
+    <button id="btnLeft">Вліво</button>
+    <button id="btnRight">Вправо</button>
+    <br><br>
+    <div id="elid"></div>
+</div>
+
+<script>
+    "use strict";
+    /*
+       Завдання №1
+       Відповідь: першим виконається big.js, тому що браузер читає код послідовно зверху вниз і чекає завершення
+       завантаження та виконання першого скрипта перед тим, як перейти до другого (якщо немає атрибутів defer/async).
+       Завдання №2 (Теоретична частина)
+       1. х = 5, тому що вираз (a *= 2) робить a = 4, а потім 1 + 4 = 5.
+       2. Так, з'явиться. Рядок "0" не є порожнім, тому в логічному контексті він перетворюється на true.
+    */
+    // Завдання №2
+    let name = "Дарина";
+    let admin = name;
+    console.log("Значення змінної admin:", admin);
+
+    // Завдання №3: Fetch та фільтрація
+    let countiesData = [];
+
+    async function getCounties() {
+        let response = await fetch("https://api.census.gov/data/2020/acs/acs5/profile?get=NAME&for=county:*");
+        let data = await response.json();
+
+        for (let i = 1; i < data.length; i++) {
+            let countyObject = {
+                name: data[i][0],
+                state: data[i][1],
+                county: data[i][2]
+            };
+            countiesData.push(countyObject);
+        }
+        console.log("Дані завантажено у масив об'єктів!");
+    }
+
+    getCounties();
+
+    function getCodeByName(countyName) {
+        for (let i = 0; i < countiesData.length; i++) {
+            if (countiesData[i].name === countyName) {
+                return countiesData[i].state + countiesData[i].county;
+            }
+        }
+        return "Не знайдено";
+    }
+
+    document.getElementById("searchBtn").addEventListener("click", function() {
+        let userInput = document.getElementById("countyInput").value;
+        let finalCode = getCodeByName(userInput);
+
+        console.log("Код округу:", finalCode);
+        document.getElementById("resultText").innerText = "Код: " + finalCode;
+    });
+
+    // Завдання №4: валідація
+    document.getElementById("myForm").addEventListener("submit", function(event) {
+        let firstName = document.getElementById("first_name").value;
+        let lastName = document.getElementById("last_name").value;
+        let email = document.getElementById("email").value;
+
+        if (firstName === "" || lastName === "" || email === "") {
+            event.preventDefault();
+            alert("Увага! Всі поля повинні бути заповнені.");
+        } else {
+            event.preventDefault();
+            alert("Дані користувача:\nІм'я: " + firstName + "\nПрізвище: " + lastName + "\nEmail: " + email);
+        }
+    });
+
+    // Завдання №5: анімація, взаємодія
+    let position = 0;
+    let elementBox = document.getElementById("elid");
+
+    document.getElementById("btnLeft").addEventListener("click", function() {
+        position = position - 100;
+        elementBox.style.marginLeft = position + "px";
+    });
+
+    document.getElementById("btnRight").addEventListener("click", function() {
+        position = position + 100;
+        elementBox.style.marginLeft = position + "px";
+    });
+
+</script>
+</body>
+</html>
