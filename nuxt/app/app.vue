@@ -1,77 +1,50 @@
 <script setup>
 useHead({
+  script: [
+    { src: 'https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js', defer: true }
+  ],
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ],
-  link: [
-    { rel: 'icon', href: '/favicon.ico' }
-  ],
-  htmlAttrs: {
-    lang: 'en'
-  }
-})
-
-const title = 'Nuxt Starter Template'
-const description = 'A production-ready starter template powered by Nuxt UI. Build beautiful, accessible, and performant applications in minutes, not hours.'
-
-useSeoMeta({
-  title,
-  description,
-  ogTitle: title,
-  ogDescription: description,
-  ogImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
-  twitterImage: 'https://ui.nuxt.com/assets/templates/nuxt/starter-light.png',
-  twitterCard: 'summary_large_image'
+  htmlAttrs: { lang: 'uk' }
 })
 </script>
 
 <template>
   <UApp>
-    <UHeader>
+    <UHeader class="bg-white border-b border-gray-200">
       <template #left>
-        <NuxtLink to="/">
-          <AppLogo class="w-auto h-6 shrink-0" />
+        <NuxtLink to="/" class="mr-6 flex items-center gap-2">
+          <iconify-icon icon="logos:nuxt-icon" class="text-2xl"></iconify-icon>
+          <span class="font-bold text-xl text-gray-900">Nuxt</span>
         </NuxtLink>
 
-        <TemplateMenu />
-      </template>
-
-      <template #right>
-        <UColorModeButton />
-
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
+        <nav class="flex gap-6 font-medium text-sm">
+          <NuxtLink
+            to="/"
+            class="text-gray-500 hover:text-gray-900 transition-colors py-4"
+            active-class="text-[#00DC82] font-bold border-b-2 border-[#00DC82]"
+          >
+            Список продуктів
+          </NuxtLink>
+          <NuxtLink
+            to="/products"
+            class="text-gray-500 hover:text-gray-900 transition-colors py-4"
+            active-class="text-[#00DC82] font-bold border-b-2 border-[#00DC82]"
+          >
+            Таблиця
+          </NuxtLink>
+        </nav>
       </template>
     </UHeader>
 
-    <UMain>
+    <UMain class="min-h-screen bg-gray-50 py-10">
       <NuxtPage />
     </UMain>
 
-    <USeparator icon="i-simple-icons-nuxtdotjs" />
-
     <UFooter>
       <template #left>
-        <p class="text-sm text-muted">
-          Built with Nuxt UI • © {{ new Date().getFullYear() }}
-        </p>
-      </template>
-
-      <template #right>
-        <UButton
-          to="https://github.com/nuxt-ui-templates/starter"
-          target="_blank"
-          icon="i-simple-icons-github"
-          aria-label="GitHub"
-          color="neutral"
-          variant="ghost"
-        />
+        <p class="text-sm text-gray-400">Built with Nuxt UI • {{ new Date().getFullYear() }}</p>
       </template>
     </UFooter>
   </UApp>

@@ -1,5 +1,5 @@
 <template>
   <div>
-    <PricingPlans />
+    <ProductTable />
   </div>
 </template>
