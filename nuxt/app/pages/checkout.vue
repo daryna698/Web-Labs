@@ -80,12 +80,13 @@
 <script setup>
 import { ref, computed } from 'vue'
 
-const route = useRoute()
 const { data: planData } = await useFetch('/api/plans')
 
-const planTitle = computed(() => route.query.plan || 'Team')
-const planType = computed(() => route.query.type || 'Annual')
-const planPrice = computed(() => route.query.price || '$2,490')
+const subscriptionStore = useSubscriptionStore()
+
+const planTitle = computed(() => subscriptionStore.planName)
+const planType = computed(() => subscriptionStore.planType)
+const planPrice = computed(() => subscriptionStore.planPrice)
 const isAnnual = computed(() => planType.value === 'Annual')
 
 const selectedPlan = computed(() => {
@@ -94,7 +95,7 @@ const selectedPlan = computed(() => {
 })
 
 const form = ref({
-  cardNumber: '', expiry: '', cvc: '', fullName: 'dev4 dev4', address: '', consent: false
+  cardNumber: '', expiry: '', cvc: '', fullName: 'firstName lastName', address: '', consent: false
 })
 
 const submitForm = async () => {

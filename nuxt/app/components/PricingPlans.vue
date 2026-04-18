@@ -29,12 +29,14 @@
     </div>
 
     <div class="flex flex-col lg:flex-row gap-6 justify-center items-stretch w-full">
+
       <PricingCard
         v-for="plan in plans"
         :key="plan.title"
         :plan="plan"
         :is-annual="isAnnual"
       />
+
     </div>
 
   </div>
