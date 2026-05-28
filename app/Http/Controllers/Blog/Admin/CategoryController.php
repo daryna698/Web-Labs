@@ -32,9 +32,13 @@ class CategoryController extends BaseController
         $item = BlogCategory::create($data);
 
         if ($item) {
-            return ['success' => 'Успішно збережено'];
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено',
+                'data' => $item
+            ];
         } else {
-            return ['msg' => 'Помилка збереження'];
+            return ['message' => 'Помилка збереження'];
         }
     }
 
@@ -46,9 +50,7 @@ class CategoryController extends BaseController
         $item = BlogCategory::find($id);
 
         if (empty($item)) {
-            return back()
-            ->withErrors(['msg' => "Запис id=[{$id}] не знайдено"])
-            ->withInput();
+            return ['message' => "Запис id=[{$id}] не знайдено"];
         }
 
         $data = $request->all();
@@ -60,9 +62,13 @@ class CategoryController extends BaseController
         $result = $item->update($data);
 
         if ($result) {
-            return ['success' => 'Успішно збережено'];
+            return [
+                'success' => true,
+                'message' => 'Успішно збережено',
+                'data' => $item->fresh()
+            ];
         } else {
-            return ['msg' => 'Помилка збереження'];
+            return ['message' => 'Помилка збереження'];
         }
     }
 }
