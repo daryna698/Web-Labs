@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Blog\Admin;
 
 use App\Models\BlogCategory;
-use Illuminate\Http\Request;
+//use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use App\Http\Requests\BlogCategoryUpdateRequest;
+use App\Http\Requests\BlogCategoryCreateRequest;
+
+
 
 class CategoryController extends BaseController
 {
@@ -21,15 +25,15 @@ class CategoryController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BlogCategoryCreateRequest $request)
     {
-        $data = $request->all();
+        $data = $request->input(); // отримаємо масив даних
 
         if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
+            $data['slug'] = \Illuminate\Support\Str::slug($data['title']); //генеруємо псевдонім
         }
 
-        $item = BlogCategory::create($data);
+        $item = (new \App\Models\BlogCategory())->create($data); // створюємо об'єкт і додаємо в БД
 
         if ($item) {
             return [
@@ -45,7 +49,7 @@ class CategoryController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(BlogCategoryUpdateRequest $request, $id)
     {
         $item = BlogCategory::find($id);
 
