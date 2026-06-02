@@ -35,10 +35,6 @@ class CategoryController extends BaseController
     {
         $data = $request->input(); // отримаємо масив даних
 
-        if (empty($data['slug'])) {
-            $data['slug'] = \Illuminate\Support\Str::slug($data['title']); //генеруємо псевдонім
-        }
-
         $item = (new \App\Models\BlogCategory())->create($data); // створюємо об'єкт і додаємо в БД
 
         if ($item) {
@@ -65,10 +61,6 @@ class CategoryController extends BaseController
         }
 
         $data = $request->all();
-
-        if (empty($data['slug'])) {
-            $data['slug'] = Str::slug($data['title']);
-        }
 
         $result = $item->update($data);
 
