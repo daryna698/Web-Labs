@@ -34,8 +34,7 @@ class BlogPostRepository extends CoreRepository
                 //'category:id,title',
                 'user:id,name',
             ])
-            ->paginate(25);
-
+            ->paginate(1000);
         return $result;
     }
     /**
