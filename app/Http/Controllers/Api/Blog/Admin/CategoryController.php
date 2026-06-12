@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Blog\Admin;
 use App\Http\Requests\BlogCategoryCreateRequest;
 use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Repositories\BlogCategoryRepository;
+use App\Http\Resources\Api\Blog\Admin\CategoryResource;
 use Illuminate\Support\Str;
 
 //use Illuminate\Http\Request;
@@ -25,7 +26,7 @@ class CategoryController extends BaseController
        // $paginator = BlogCategory::paginate(5);
         $paginator = $this->blogCategoryRepository->getAllWithPaginate(5);
 
-        return $paginator;
+        return CategoryResource::collection($paginator);
     }
 
     /**
@@ -41,7 +42,7 @@ class CategoryController extends BaseController
             return [
                 'success' => true,
                 'message' => 'Успішно збережено',
-                'data' => $item
+                'data' => new CategoryResource($item)
             ];
         } else {
             return ['message' => 'Помилка збереження'];
@@ -68,7 +69,7 @@ class CategoryController extends BaseController
             return [
                 'success' => true,
                 'message' => 'Успішно збережено',
-                'data' => $item->fresh()
+                'data' => new CategoryResource($item->fresh())
             ];
         } else {
             return ['message' => 'Помилка збереження'];

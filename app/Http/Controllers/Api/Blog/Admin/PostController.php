@@ -12,7 +12,8 @@ use App\Models\BlogPost;
 use App\Http\Requests\BlogPostCreateRequest;
 use App\Jobs\BlogPostAfterCreateJob;
 use App\Jobs\BlogPostAfterDeleteJob;
-
+use App\Http\Resources\Api\Blog\Admin\PostResource;
+use App\Http\Controllers\Controller;
 
 class PostController extends BaseController
 {
@@ -20,64 +21,81 @@ class PostController extends BaseController
 
     public function __construct(
         private BlogPostRepository $blogPostRepository,
-        private BlogCategoryRepository $blogCategoryRepository // властивість через яку будемо звертатись в репозиторій категорій
-)
-    {
+        private BlogCategoryRepository $blogCategoryRepository
+    ) {
     }
 
-    public function index()
+    /**
+     * Вивід списку з динамічним пошуком та пагінацією
+     */
+    public function index(Request $request)
     {
-        $paginator = $this->blogPostRepository->getAllWithPaginate();
+        // Зчитуємо параметри з фронтенду
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search', null);
+        $sortBy = $request->input('sort_by', 'id');
+        $sortOrder = $request->input('sort_order', 'DESC');
 
-        return $paginator;
+        $paginator = $this->blogPostRepository->getAllWithPaginate($perPage, $search, $sortBy, $sortOrder);
+
+        return PostResource::collection($paginator);
+    }
+
+    public function show(string $id)
+    {
+        $item = $this->blogPostRepository->getEdit($id);
+
+        if (empty($item)) {
+            return response()->json(['message' => "Статтю з ID={$id} не знайдено"], 404);
+        }
+
+        return response()->json($item);
     }
 
     public function store(BlogPostCreateRequest $request)
     {
-        $data = $request->input(); //отримаємо масив даних, які надійшли з форми
+        $data = $request->input();
 
-        $item = (new BlogPost())->create($data); //створюємо об'єкт і додаємо в БД
+        $item = (new BlogPost())->create($data);
 
         if ($item) {
             $job = new BlogPostAfterCreateJob($item);
             $this->dispatch($job);
-            return ['success' => 'Успішно збережено'];
+            return response()->json(['success' => 'Успішно збережено']);
         } else {
-            return ['msg' => 'Помилка збереження'];
-        }    }
+            return response()->json(['msg' => 'Помилка збереження'], 500);
+        }
+    }
 
     public function update(BlogPostUpdateRequest $request, string $id)
     {
         $item = $this->blogPostRepository->getEdit($id);
-        if (empty($item)) { //якщо ід не знайдено
-            return ['message' => "Запис id=[{$id}] не знайдено"];
+        if (empty($item)) {
+            return response()->json(['message' => "Запис id=[{$id}] не знайдено"], 404);
         }
 
-        $data = $request->all(); //отримаємо масив даних, які надійшли з форми
-
-
-        $result = $item->update($data); //оновлюємо дані об'єкта і зберігаємо в БД
+        $data = $request->all();
+        $result = $item->update($data);
 
         if ($result) {
-            return [
+            return response()->json([
                 'success' => true,
                 'message' => 'Успішно збережено'
-            ];
+            ]);
         } else {
-            return ['message' => 'Помилка збереження'];
+            return response()->json(['message' => 'Помилка збереження'], 500);
         }
     }
 
     public function destroy(string $id)
     {
-       $result = BlogPost::destroy($id); // софт деліт, запис лишається
-        // $result = BlogPost::find($id)->forceDelete(); // повне видалення з БД
+        $result = BlogPost::destroy($id);
 
         if ($result) {
             BlogPostAfterDeleteJob::dispatch($id)->delay(20);
-            return ['success' => 'Статтю успішно видалено'];
+            return response()->json(['success' => 'Статтю успешно видалено']);
         } else {
-            return ['msg' => 'Помилка видалення. Запис не знайдено'];
+            return response()->json(['msg' => 'Помилка видалення. Запис не знайдено'], 404);
         }
     }
 }
