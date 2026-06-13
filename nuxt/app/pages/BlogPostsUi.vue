@@ -31,21 +31,21 @@
       >
         <template #title-cell="{ row }">
           <NuxtLink
-            :to="`/admin/blog/posts/${row.original.id}/edit`"
-            class="text-blue-500 hover:underline font-medium"
+            :to="`/posts/${row.original.id}`"
+            class="text-blue-500 hover:underline font-medium text-left"
           >
             {{ row.original.title }}
           </NuxtLink>
         </template>
 
         <template #actions-cell="{ row }">
-          <UDropdown :items="getActionItems(row.original)">
+          <UDropdownMenu :items="getActionItems(row.original)">
             <UButton
               color="neutral"
               variant="ghost"
               icon="i-heroicons-ellipsis-horizontal-20-solid"
             />
-          </UDropdown>
+          </UDropdownMenu>
         </template>
       </UTable>
 
@@ -54,15 +54,15 @@
           <span>Показувати по:</span>
           <USelect
             v-model="perPage"
-            :options="[5, 10, 20, 50]"
+            :items="[5, 10, 20, 50]"
             size="sm"
             class="w-20"
           />
         </div>
 
         <UPagination
-          v-model="page"
-          :page-count="perPage"
+          v-model:page="page"
+          :items-per-page="perPage"
           :total="total"
         />
       </div>
@@ -76,24 +76,14 @@ import { ref, watch, onMounted } from 'vue'
 interface RawPost {
   id?: number | string
   title?: string
-  published_at?: string
-  date_published?: string
-  author_name?: string
-  category_title?: string
-  user?: {
-    name?: string
-  }
-  category?: {
-    title?: string
-  }
+  date_published?: string | null
+  author_name?: string | null
+  category_title?: string | null
 }
 
 interface ApiResponse {
   data?: RawPost[]
-  meta?: {
-    total?: number
-  }
-  total?: number
+  meta?: { total?: number }
 }
 
 interface Post {
@@ -111,7 +101,6 @@ const total = ref(0)
 const search = ref('')
 const pending = ref(false)
 
-// Колонки для Nuxt UI v3 використовують accessorKey та header
 const columns = [
   { accessorKey: 'id', header: '#' },
   { accessorKey: 'author', header: 'Автор' },
@@ -131,7 +120,7 @@ const getActionItems = (post: Post) => [
     {
       label: 'Видалити',
       icon: 'i-heroicons-trash-20-solid',
-      click: () => console.log('Видалити пост:', post.id)
+      onClick: () => removePost(post.id)
     }
   ]
 ]
@@ -139,7 +128,7 @@ const getActionItems = (post: Post) => [
 const fetchPosts = async () => {
   pending.value = true
   try {
-    const response = await $fetch<ApiResponse>('http://localhost:80/api/blog/posts', {
+    const response = await $fetch<ApiResponse>('http://localhost:80/api/admin/blog/posts', {
       query: {
         page: page.value,
         per_page: perPage.value,
@@ -147,31 +136,41 @@ const fetchPosts = async () => {
       }
     })
 
-    const rawData = response?.data && Array.isArray(response.data)
-      ? response.data
-      : (Array.isArray(response) ? response : [])
+    const rawData = Array.isArray(response?.data) ? response.data : []
 
     posts.value = rawData.map(post => ({
       id: Number(post?.id),
-      author: String(post?.user?.name || post?.author_name || 'Невідомо'),
-      category: String(post?.category?.title || post?.category_title || 'Невідомо'),
-      title: String(post?.title || ''),
-      published_at: String(post?.published_at || post?.date_published || 'Чернетка')
+      author: post?.author_name || 'Невідомо',
+      category: post?.category_title || 'Невідомо',
+      title: post?.title || '',
+      published_at: post?.date_published || 'Чернетка'
     }))
 
-    total.value = response?.meta?.total || response?.total || rawData.length
-  } catch (error) {
-    console.error('Помилка завантаження даних:', error)
+    total.value = response?.meta?.total ?? rawData.length
+  } catch (e) {
+    console.error('Помилка завантаження даних:', e)
   } finally {
     pending.value = false
   }
 }
 
-watch([page, perPage, search], () => {
-  if (search.value && page.value !== 1) {
-    page.value = 1
-    return
+const removePost = async (id: number) => {
+  if (!confirm('Видалити цю статтю?')) return
+
+  try {
+    await $fetch(`http://localhost:80/api/admin/blog/posts/${id}`, {
+      method: 'DELETE'
+    })
+    await fetchPosts()
+  } catch (e) {
+    console.error('Помилка видалення:', e)
   }
+}
+
+watch([page, perPage], fetchPosts)
+
+watch(search, () => {
+  page.value = 1
   fetchPosts()
 })
 

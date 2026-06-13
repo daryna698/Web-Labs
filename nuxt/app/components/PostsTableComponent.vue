@@ -1,34 +1,37 @@
 <template>
-  <div class="container mx-auto p-4">
+  <div class="container">
     <div class="flex justify-center">
       <div class="w-full">
-        <nav class="navbar bg-gray-100 p-3 mb-4 rounded">
-          <a href="/admin/blog/posts/create" class="text-blue-600 hover:underline">Додати</a>
+        <nav class="navbar bg-gray-100">
+          <a href="/admin/blog/posts/create">Додати</a>
         </nav>
-        <div class="card border rounded shadow-sm bg-white">
-          <div class="card-body p-4">
-            <table class="table-auto w-full text-left border-collapse">
+        <div class="card">
+          <div class="card-body">
+            <table class="table table-auto w-full border">
               <thead>
-              <tr class="bg-gray-50 border-b">
-                <th class="p-2">#</th>
-                <th class="p-2">Автор</th>
-                <th class="p-2">Категорія</th>
-                <th class="p-2">Заголовок</th>
-                <th class="p-2">Дата публікації</th>
-              </tr>
+                <tr>
+                  <th>#</th>
+                  <th>Автор</th>
+                  <th>Категорія</th>
+                  <th>Заголовок</th>
+                  <th>Дата публікації</th>
+                </tr>
               </thead>
               <tbody>
-              <tr v-for="post in posts" :key="post.id" class="border-b hover:bg-gray-50">
-                <td class="p-2">{{ post.id }}</td>
-                <td class="p-2">{{ post.user?.name || 'Невідомо' }}</td>
-                <td class="p-2">{{ post.category?.title || 'Невідомо' }}</td>
-                <td class="p-2">
-                  <a :href="'/admin/blog/posts/' + post.id + '/edit'" class="text-blue-500 hover:underline">
-                    {{ post.title }}
-                  </a>
-                </td>
-                <td class="p-2">{{ post.published_at || 'Чернетка' }}</td>
-              </tr>
+                <tr
+                  v-for="post in posts"
+                  :key="post.id"
+                >
+                  <td>{{ post.id }}</td>
+                  <td>{{ post.author_name }}</td>
+                  <td>{{ post.category_title }}</td>
+                  <td>
+                    <a :href="'/admin/blog/posts/' + post.id + '/edit'">
+                      {{ post.title }}
+                    </a>
+                  </td>
+                  <td>{{ post.date_published }}</td>
+                </tr>
               </tbody>
             </table>
           </div>
@@ -41,17 +44,26 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 
-const posts = ref<any[]>([])
+interface Post {
+  id: number
+  author_name: string | null
+  category_title: string | null
+  title: string
+  date_published: string | null
+}
 
-const getPosts = async () => {
-  try {
-    // Запит до твого Laravel
-    const response = await $fetch<any>('http://localhost:80/api/blog/posts')
-    console.log('Дані з API:', response)
-    posts.value = response.data || response
-  } catch (error) {
-    console.error('Помилка завантаження постів:', error)
-  }
+interface PostsResponse {
+  data: Post[]
+}
+
+const posts = ref<Post[]>([])
+
+const getPosts = () => {
+  $fetch<PostsResponse>('http://localhost:80/api/blog/posts')
+    .then((response) => {
+      console.log(response)
+      posts.value = response.data
+    })
 }
 
 getPosts()
