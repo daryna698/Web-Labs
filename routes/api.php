@@ -22,7 +22,7 @@ Route::group($groupData, function () {
 
     //BlogPost
     Route::apiResource('posts', PostController::class)
-        ->except(['show'])                               //не робити маршрут для метода show
+        ->except(['show'])
         ->names('blog.admin.posts');
 
     Route::group(['prefix' => 'digging_deeper'], function () {

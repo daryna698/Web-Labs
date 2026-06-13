@@ -43,13 +43,24 @@ class PostController extends BaseController
 
     public function show(string $id)
     {
-        $item = $this->blogPostRepository->getEdit($id);
+        $post =
+            BlogPost::with([
+                'user',
+                'category'
+            ])
+                ->find($id);
 
-        if (empty($item)) {
-            return response()->json(['message' => "Статтю з ID={$id} не знайдено"], 404);
+        if (!$post) {
+
+            return response()->json([
+                'message'=>'Пост не знайдено'
+            ],404);
+
         }
 
-        return response()->json($item);
+        return new PostResource(
+            $post
+        );
     }
 
     public function store(BlogPostCreateRequest $request)
