@@ -1,8 +1,5 @@
 <script setup>
 useHead({
-  script: [
-    { src: 'https://code.iconify.design/iconify-icon/1.0.7/iconify-icon.min.js', defer: true }
-  ],
   meta: [
     { name: 'viewport', content: 'width=device-width, initial-scale=1' }
   ],
@@ -14,8 +11,14 @@ useHead({
   <UApp>
     <UHeader class="bg-white border-b border-gray-200">
       <template #left>
-        <NuxtLink to="/" class="mr-6 flex items-center gap-2">
-          <iconify-icon icon="logos:nuxt-icon" class="text-2xl"></iconify-icon>
+        <NuxtLink
+          to="/"
+          class="mr-6 flex items-center gap-2"
+        >
+          <UIcon
+            name="i-simple-icons-nuxtdotjs"
+            class="text-2xl text-[#00DC82]"
+          />
           <span class="font-bold text-xl text-gray-900">Nuxt</span>
         </NuxtLink>
 
@@ -28,11 +31,18 @@ useHead({
             Список продуктів
           </NuxtLink>
           <NuxtLink
-            to="/products"
+            to="/BlogPostsUi"
             class="text-gray-500 hover:text-gray-900 transition-colors py-4"
             active-class="text-[#00DC82] font-bold border-b-2 border-[#00DC82]"
           >
-            Таблиця
+            Публікації
+          </NuxtLink>
+          <NuxtLink
+            to="/admin/blog/categories"
+            class="text-gray-500 hover:text-gray-900 transition-colors py-4"
+            active-class="text-[#00DC82] font-bold border-b-2 border-[#00DC82]"
+          >
+            Категорії
           </NuxtLink>
         </nav>
       </template>
@@ -44,7 +54,9 @@ useHead({
 
     <UFooter>
       <template #left>
-        <p class="text-sm text-gray-400">Built with Nuxt UI • {{ new Date().getFullYear() }}</p>
+        <p class="text-sm text-gray-400">
+          Built with Nuxt UI • {{ new Date().getFullYear() }}
+        </p>
       </template>
     </UFooter>
   </UApp>
