@@ -20,9 +20,12 @@ class PostResource extends JsonResource
             'slug'            => $this->slug,
             'is_published'    => (bool) $this->is_published,
 
-            // Форматуємо дату для зручності фронтенду
             'date_published'  => $this->published_at
                 ? \Carbon\Carbon::parse($this->published_at)->format('Y-m-d H:i:s')
+                : null,
+
+            'published_at'   => $this->published_at
+                ? \Carbon\Carbon::parse($this->published_at)->format('Y-m-d\TH:i')
                 : null,
 
             // Передаємо id зв'язаних сутностей
