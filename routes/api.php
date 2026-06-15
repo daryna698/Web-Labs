@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Blog\Admin\CategoryController;
 use App\Http\Controllers\Api\Blog\Admin\PostController;
+use App\Http\Controllers\RestTestController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DiggingDeeperController;
 
@@ -14,6 +15,7 @@ $groupData = [
 ];
 
 Route::group($groupData, function () {
+    Route::apiResource('rest', RestTestController::class)->names('restTest');
 
     Route::get('categories/combobox', [CategoryController::class, 'comboBox'])
         ->name('blog.admin.categories.combobox');

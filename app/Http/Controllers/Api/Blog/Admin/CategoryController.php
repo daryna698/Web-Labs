@@ -7,6 +7,7 @@ use App\Http\Requests\BlogCategoryUpdateRequest;
 use App\Models\BlogCategory;
 use App\Repositories\BlogCategoryRepository;
 use App\Http\Resources\Api\Blog\Admin\CategoryResource;
+use Illuminate\Http\Request;
 
 class CategoryController extends BaseController
 {
@@ -17,9 +18,12 @@ class CategoryController extends BaseController
     /**
      * Список категорій з пагінацією
      */
-    public function index()
+    public function index(Request $request)
     {
-        $paginator = $this->blogCategoryRepository->getAllWithPaginate(10);
+        $perPage = $request->input('per_page', 10);
+        $search = $request->input('search', null);
+
+        $paginator = $this->blogCategoryRepository->getAllWithPaginate($perPage, $search);
 
         return CategoryResource::collection($paginator);
     }
@@ -95,12 +99,27 @@ class CategoryController extends BaseController
      */
     public function destroy(string $id)
     {
-        $result = BlogCategory::destroy($id);
+        $item = $this->blogCategoryRepository->getEdit($id);
+
+        if (empty($item)) {
+            return response()->json(['message' => "Категорію id=[{$id}] не знайдено"], 404);
+        }
+
+        // Перевіряємо чи є пости з цією категорією
+        $postsCount = \App\Models\BlogPost::where('category_id', $id)->count();
+
+        if ($postsCount > 0) {
+            return response()->json([
+                'message' => "Неможливо видалити категорію — до неї прив'язано {$postsCount} публікацій. Спочатку змініть категорію у цих публікаціях."
+            ], 422);
+        }
+
+        $result = \App\Models\BlogCategory::destroy($id);
 
         if ($result) {
             return response()->json(['success' => true, 'message' => 'Категорію успішно видалено']);
         } else {
-            return response()->json(['message' => 'Помилка видалення. Запис не знайдено'], 404);
+            return response()->json(['message' => 'Помилка видалення'], 500);
         }
     }
 }
