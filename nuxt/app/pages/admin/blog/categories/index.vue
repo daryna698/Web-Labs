@@ -5,7 +5,7 @@
         Категорії блогу
       </h1>
 
-      <div class="mb-4">
+      <div class="mb-4 flex flex-col sm:flex-row justify-between items-center gap-4">
         <UButton
           to="/admin/blog/categories/create"
           color="primary"
@@ -14,6 +14,13 @@
         >
           Додати категорію
         </UButton>
+
+        <UInput
+          v-model="search"
+          icon="i-heroicons-magnifying-glass-20-solid"
+          placeholder="Пошук за назвою..."
+          class="w-full sm:w-64"
+        />
       </div>
 
       <UTable
@@ -33,7 +40,17 @@
         </template>
       </UTable>
 
-      <div class="flex justify-center mt-6 border-t pt-4">
+      <div class="flex flex-col sm:flex-row justify-between items-center mt-6 border-t pt-4 gap-4">
+        <div class="flex items-center gap-2 text-sm text-gray-500">
+          <span>Показувати по:</span>
+          <USelect
+            v-model="perPage"
+            :items="[5, 10, 20, 50]"
+            size="sm"
+            class="w-20"
+          />
+        </div>
+
         <UPagination
           v-model:page="page"
           :items-per-page="perPage"
@@ -61,10 +78,13 @@ interface ApiResponse {
   meta?: { total?: number }
 }
 
+const toast = useToast()
+
 const categories = ref<RawCategory[]>([])
 const page = ref(1)
 const perPage = ref(10)
 const total = ref(0)
+const search = ref('')
 const pending = ref(false)
 
 const columns = [
@@ -94,7 +114,11 @@ const fetchCategories = async () => {
   pending.value = true
   try {
     const response = await $fetch<ApiResponse>('http://localhost:80/api/admin/blog/categories', {
-      query: { page: page.value }
+      query: {
+        page: page.value,
+        per_page: perPage.value,
+        search: search.value
+      }
     })
 
     categories.value = response.data
@@ -113,13 +137,31 @@ const removeCategory = async (id: number) => {
     await $fetch(`http://localhost:80/api/admin/blog/categories/${id}`, {
       method: 'DELETE'
     })
+
+    toast.add({
+      title: 'Категорію видалено',
+      color: 'success',
+      duration: 3000
+    })
+
     await fetchCategories()
-  } catch (e) {
-    console.error('Помилка видалення:', e)
+  } catch (e: unknown) {
+    const err = e as { data?: { message?: string } }
+    toast.add({
+      title: 'Неможливо видалити',
+      description: err?.data?.message || 'Помилка видалення',
+      color: 'error',
+      duration: 5000
+    })
   }
 }
 
-watch(page, fetchCategories)
+watch([page, perPage], fetchCategories)
+
+watch(search, () => {
+  page.value = 1
+  fetchCategories()
+})
 
 onMounted(() => {
   fetchCategories()

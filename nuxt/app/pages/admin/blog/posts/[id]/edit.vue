@@ -132,6 +132,7 @@ import type { FormSubmitEvent } from '@nuxt/ui'
 const route = useRoute()
 const router = useRouter()
 const postId = route.params.id
+const toast = useToast()
 
 const schema = z.object({
   title: z.string().min(5, 'Мінімум 5 символів').max(200, 'Максимум 200 символів'),
@@ -217,7 +218,13 @@ const onSubmit = async (event: FormSubmitEvent<Schema>) => {
       method: 'PUT',
       body: event.data
     })
-
+    // для постів
+    toast.add({
+      title: 'Публікацію оновлено',
+      description: 'Зміни успішно збережено',
+      color: 'success',
+      duration: 3000
+    })
     router.push('/BlogPostsUi')
   } catch (e) {
     generalError.value = getErrorMessage(e)
